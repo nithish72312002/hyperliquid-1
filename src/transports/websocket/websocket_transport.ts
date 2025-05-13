@@ -54,7 +54,7 @@ export interface WebSocketTransportOptions {
 /** WebSocket implementation of the REST and Subscription transport interfaces. */
 export class WebSocketTransport implements IRequestTransport, ISubscriptionTransport {
     /** The interval timer ID for keep-alive messages. */
-    protected _keepAliveTimer: number | null = null;
+    protected _keepAliveTimer: ReturnType<typeof setInterval> | null = null;
 
     /** The WebSocket request dispatcher instance. */
     protected _wsRequester: WebSocketRequestDispatcher;

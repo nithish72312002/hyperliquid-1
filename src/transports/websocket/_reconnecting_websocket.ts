@@ -1,7 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
-import { delay } from "@std/async/delay";
-
 import { type MaybePromise, TransportError } from "../../base.ts";
+import { delay } from "@std/async/delay";
 
 /** Configuration options for the `ReconnectingWebSocket`. */
 export interface ReconnectingWebSocketOptions {
@@ -178,7 +177,7 @@ export class ReconnectingWebSocket implements WebSocket {
                 this._socket.send(message);
             }
         }, { once: true });
-        this._socket.addEventListener("close", async (event) => {
+        this._socket.addEventListener("close", async (event: CloseEvent) => {
             try {
                 // If the termination signal is already aborted, do not attempt to reconnect
                 if (this._terminationController.signal.aborted) return;
@@ -410,7 +409,11 @@ function createWebSocketWithTimeout(
     protocols?: string | string[],
     timeout?: number | null,
 ): WebSocket {
-    const socket = new WebSocket(url, protocols);
+    // Ensure URL is a string (needed for React Native)
+    const urlString = url.toString();
+    
+    // Create WebSocket - works in all environments (browser, Node.js, React Native)
+    const socket = new WebSocket(urlString, protocols);
     if (timeout === null || timeout === undefined) return socket;
 
     const timeoutId = setTimeout(() => {

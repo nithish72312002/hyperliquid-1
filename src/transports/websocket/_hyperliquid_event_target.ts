@@ -78,7 +78,7 @@ interface HyperliquidEventMap {
 export class HyperliquidEventTarget extends TypedEventTarget<HyperliquidEventMap> {
     constructor(socket: WebSocket) {
         super();
-        socket.addEventListener("message", (event) => {
+        socket.addEventListener("message", (event: MessageEvent) => {
             try {
                 const msg = JSON.parse(event.data) as unknown;
                 if (isHyperliquidMsg(msg)) {

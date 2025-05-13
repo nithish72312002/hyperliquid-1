@@ -9,15 +9,19 @@ await build({
         { name: "./signing", path: "./src/signing.ts" },
     ],
     outDir: "./build/npm",
-    shims: {},
-    typeCheck: "both",
+    shims: {
+        webSocket: true,
+        crypto: true,
+        abort: true
+    },
+    typeCheck: "false",
     test: false,
     scriptModule: "umd",
     package: {
         name: "@nktkas/hyperliquid",
         version: Deno.args[0],
         description:
-            "Unofficial Hyperliquid API SDK for all major JS runtimes, written in TypeScript and provided with tests",
+            "Unofficial Hyperliquid API SDK for all major JS runtimes including React Native, written in TypeScript and provided with tests",
         keywords: [
             "api",
             "blockchain",
@@ -31,6 +35,8 @@ await build({
             "trading",
             "typescript",
             "web3",
+            "react-native",
+            "mobile"
         ],
         author: {
             name: "nktkas",
@@ -47,12 +53,16 @@ await build({
         },
         license: "MIT",
         engines: {
-            node: ">=22.4.0",
+            node: ">=16.0.0",
+        },
+        peerDependencies: {
+            "react-native": ">=0.63.0"
         },
     },
     importMap: "deno.json",
     compilerOptions: {
         lib: ["ES2022", "DOM"],
+        jsx: "react"
     },
     postBuild() {
         Deno.copyFileSync("CONTRIBUTING.md", "build/npm/CONTRIBUTING.md");
