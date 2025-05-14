@@ -264,12 +264,13 @@ class PublicClient {
     });
 
     // Market
-    allMids(): Promise<AllMids>;
+    allMids(args?: AllMidsParameters): Promise<AllMids>;
     candleSnapshot(args: CandleSnapshotParameters): Promise<Candle[]>;
     fundingHistory(args: FundingHistoryParameters): Promise<FundingHistory[]>;
     l2Book(args: L2BookParameters): Promise<Book>;
-    meta(): Promise<PerpsMeta>;
+    meta(args?: MetaParameters): Promise<PerpsMeta>;
     metaAndAssetCtxs(): Promise<PerpsMetaAndAssetCtxs>;
+    perpDexs(): Promise<(PerpDex | null)[]>;
     perpsAtOpenInterestCap(): Promise<string[]>;
     predictedFundings(): Promise<PredictedFunding[]>;
     spotDeployState(args: SpotDeployStateParameters): Promise<SpotDeployState>;
@@ -389,7 +390,8 @@ class WalletClient {
     tokenDelegate(args: TokenDelegateParameters): Promise<SuccessResponse>;
 
     // Market
-    spotDeploy(args: SpotDeployParameters): Promise<BaseExchangeResponse>;
+    perpDeploy(args: PerpDeployParameters): Promise<SuccessResponse>;
+    spotDeploy(args: SpotDeployParameters): Promise<SuccessResponse>;
 
     // Vault
     createVault(args: CreateVaultParameters): Promise<CreateVaultResponse>;

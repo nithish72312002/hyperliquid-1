@@ -1,5 +1,6 @@
 import { TypedEventTarget } from "typescript-event-target";
 import type { BlockDetails, TxDetails } from "../../types/explorer/responses";
+import type { BaseExchangeResponse } from "../../types/exchange/responses";
 
 /** Represents a message from the Hyperliquid WebSocket API. */
 interface HyperliquidMsg {
@@ -41,20 +42,8 @@ interface HyperliquidEventMap {
             | {
                 /** Indicates that this is an action response. */
                 type: "action";
-                /** Contains the action result data. */
-                payload: {
-                    /** Response status indicating success or failure of the action. */
-                    status: "ok" | "err";
-                    /** Success data or error message. */
-                    response:
-                        | {
-                            /** Type of operation. */
-                            type: string;
-                            /** Specific data for the operation. */
-                            data?: unknown;
-                        }
-                        | string;
-                };
+                /** Action result. */
+                payload: BaseExchangeResponse;
             };
     }>;
 

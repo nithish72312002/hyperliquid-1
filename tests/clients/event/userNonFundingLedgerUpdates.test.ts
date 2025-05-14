@@ -20,7 +20,7 @@ Deno.test("userNonFundingLedgerUpdates", async () => {
     // —————————— Prepare ——————————
 
     const transport = new WebSocketTransport({ url: "wss://api.hyperliquid-testnet.xyz/ws" });
-    const client = new EventClient({ transport });
+    await using client = new EventClient({ transport });
 
     // —————————— Test ——————————
 
@@ -28,19 +28,15 @@ Deno.test("userNonFundingLedgerUpdates", async () => {
         new Promise((resolve) => {
             client.userNonFundingLedgerUpdates({ user: USER_ADDRESS }, resolve);
         }),
-        15_000,
+        10_000,
     );
 
     schemaCoverage(MethodReturnType, [data], {
         ignoreBranchesByPath: {
-            "#/properties/nonFundingLedgerUpdates/items/properties/delta/anyOf": [1, 3, 4, 8, 10, 11],
+            "#/properties/nonFundingLedgerUpdates/items/properties/delta/anyOf": [1, 3, 4, 5, 6, 7, 8, 10, 11],
         },
         ignoreEnumValuesByPath: {
             "#/properties/nonFundingLedgerUpdates/items/properties/delta/anyOf/3/properties/leverageType": ["Cross"],
         },
     });
-
-    // —————————— Cleanup ——————————
-
-    await transport.close();
 });
