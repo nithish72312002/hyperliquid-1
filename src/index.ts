@@ -1,3 +1,6 @@
+// Polyfills for React Native compatibility
+import "./utils/compatibility/abort-signal";
+
 // Base interfaces
 export * from "./base";
 
