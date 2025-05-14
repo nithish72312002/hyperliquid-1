@@ -1,6 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { delay } from "../../utils/compatibility/async";
 import { type MaybePromise, TransportError } from "../../base";
+import { environment } from "../../utils/environment";
 
 /** Configuration options for the `ReconnectingWebSocket`. */
 export interface ReconnectingWebSocketOptions {
@@ -125,8 +126,30 @@ export class ReconnectingWebSocket implements WebSocket {
         // Ensure URL is a string (needed for React Native)
         const urlString = url.toString();
         
-        // Create WebSocket - works in all environments (browser, Node.js, React Native)
-        const socket = new WebSocket(urlString, protocols);
+        let socket: WebSocket;
+        
+        // Create WebSocket based on environment
+        if (environment.isReactNative) {
+            // Use global WebSocket for React Native
+            socket = new WebSocket(urlString, protocols);
+        } else if (environment.isNode) {
+            // For Node.js, use either global WebSocket or try to load ws package
+            const globalWs = (globalThis as any).WebSocket;
+            if (typeof globalWs !== 'undefined') {
+                socket = new globalWs(urlString, protocols);
+            } else {
+                try {
+                    // Dynamic import for Node.js to avoid bundling ws in browser builds
+                    const WsModule = require('ws');
+                    socket = new WsModule(urlString, protocols);
+                } catch (err) {
+                    throw new Error('WebSocket implementation not available. Install the "ws" package.');
+                }
+            }
+        } else {
+            // Browser or other environment with native WebSocket
+            socket = new WebSocket(urlString, protocols);
+        }
         if (this.reconnectOptions.connectionTimeout === null) return socket;
 
         const timeoutId = setTimeout(() => {
