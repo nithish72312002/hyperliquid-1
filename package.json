@@ -36,6 +36,7 @@
   "dependencies": {
     "@msgpack/msgpack": "^3.0.0-beta2",
     "@noble/hashes": "^1.8.0",
+    "event-target-shim": "^6.0.2",
     "typescript-event-target": "^1.1.1"
   },
   "devDependencies": {

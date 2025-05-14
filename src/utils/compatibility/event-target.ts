@@ -1,3 +1,7 @@
+// Import the EventTarget polyfill for React Native compatibility
+// @ts-ignore - Using event-target-shim without type checks
+import { EventTarget } from 'event-target-shim';
+
 /**
  * A function that can be passed to the `listener` parameter of {@link TypedEventTarget.addEventListener} and {@link TypedEventTarget.removeEventListener}.
  *
