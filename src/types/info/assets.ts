@@ -1,4 +1,4 @@
-import type { Hex } from "../../base.ts";
+import type { Hex } from "../../base";
 
 /** Mapping of coin symbols to mid prices. */
 export interface AllMids {

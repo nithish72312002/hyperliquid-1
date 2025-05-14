@@ -1,4 +1,4 @@
-import type { Hex } from "../../base.ts";
+import type { Hex } from "../../base";
 
 /** Base structure for exchange responses. */
 export interface BaseExchangeResponse {

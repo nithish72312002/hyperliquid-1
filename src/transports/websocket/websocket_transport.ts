@@ -3,10 +3,10 @@ import {
     ReconnectingWebSocket,
     ReconnectingWebSocketError,
     type ReconnectingWebSocketOptions,
-} from "./_reconnecting_websocket.ts";
-import { HyperliquidEventTarget } from "./_hyperliquid_event_target.ts";
-import { WebSocketRequestDispatcher, WebSocketRequestError } from "./_websocket_request_dispatcher.ts";
-import type { IRequestTransport, ISubscriptionTransport, Subscription } from "../../base.ts";
+} from "./_reconnecting_websocket";
+import { HyperliquidEventTarget } from "./_hyperliquid_event_target";
+import { WebSocketRequestDispatcher, WebSocketRequestError } from "./_websocket_request_dispatcher";
+import type { IRequestTransport, ISubscriptionTransport, Subscription } from "../../base";
 
 export { WebSocketRequestError };
 export { type MessageBufferStrategy, ReconnectingWebSocketError, type ReconnectingWebSocketOptions };

@@ -1,5 +1,5 @@
-import { TypedEventTarget } from "@derzade/typescript-event-target";
-import type { BlockDetails, TxDetails } from "../../types/explorer/responses.ts";
+import { TypedEventTarget } from "typescript-event-target";
+import type { BlockDetails, TxDetails } from "../../types/explorer/responses";
 
 /** Represents a message from the Hyperliquid WebSocket API. */
 interface HyperliquidMsg {

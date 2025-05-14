@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
-import { type MaybePromise, TransportError } from "../../base.ts";
-import { delay } from "@std/async/delay";
+import { type MaybePromise, TransportError } from "../../base";
+import { delay } from "../../utils/compatibility/async";
 
 /** Configuration options for the `ReconnectingWebSocket`. */
 export interface ReconnectingWebSocketOptions {

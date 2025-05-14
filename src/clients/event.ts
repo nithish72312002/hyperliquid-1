@@ -1,4 +1,4 @@
-import type { ISubscriptionTransport, Subscription } from "../base.ts";
+import type { ISubscriptionTransport, Subscription } from "../base";
 import type {
     WsActiveAssetCtxRequest,
     WsActiveAssetDataRequest,
@@ -18,7 +18,7 @@ import type {
     WsUserTwapHistoryRequest,
     WsUserTwapSliceFillsRequest,
     WsWebData2Request,
-} from "../types/subscriptions/requests.ts";
+} from "../types/subscriptions/requests";
 import type {
     WsActiveAssetCtx,
     WsActiveAssetData,
@@ -35,10 +35,10 @@ import type {
     WsUserTwapHistory,
     WsUserTwapSliceFills,
     WsWebData2,
-} from "../types/subscriptions/responses.ts";
-import type { Candle } from "../types/info/assets.ts";
-import type { Book, Order, OrderStatus } from "../types/info/orders.ts";
-import type { TxDetails } from "../types/explorer/responses.ts";
+} from "../types/subscriptions/responses";
+import type { Candle } from "../types/info/assets";
+import type { Book, Order, OrderStatus } from "../types/info/orders";
+import type { TxDetails } from "../types/explorer/responses";
 
 /** Parameters for the {@linkcode EventClient} constructor. */
 export interface EventClientParameters<T extends ISubscriptionTransport = ISubscriptionTransport> {

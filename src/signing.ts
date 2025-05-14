@@ -49,14 +49,24 @@
  */
 
 import { keccak_256 } from "@noble/hashes/sha3";
-import { encode as encodeMsgpack, type ValueMap, type ValueType } from "@std/msgpack/encode";
-import { decodeHex, encodeHex } from "@std/encoding/hex";
-import { concat } from "@std/bytes/concat";
-import type { Hex } from "./base.ts";
+import { encode as encodeMsgpack } from "@msgpack/msgpack";
+import { bytesToHex as encodeHex, hexToBytes as decodeHex } from "@noble/hashes/utils";
+import type { Hex } from "./base";
 
+// For concat, we need a small utility function (could also use buffer-concat or similar packages)
+function concat(arrays: Uint8Array[]): Uint8Array {
+  const totalLength = arrays.reduce((acc, arr) => acc + arr.byteLength, 0);
+  const result = new Uint8Array(totalLength);
+  let offset = 0;
+  for (const arr of arrays) {
+    result.set(arr, offset);
+    offset += arr.byteLength;
+  }
+  return result;
+}
 export type { Hex };
-export type { ValueMap, ValueType };
-
+export type ValueMap = Record<string, any>;
+export type ValueType = any;
 /** Abstract interface for a [viem wallet](https://viem.sh/docs/clients/wallet). */
 export interface AbstractViemWalletClient {
     signTypedData(params: {

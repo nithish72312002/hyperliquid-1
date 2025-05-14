@@ -1,4 +1,4 @@
-import type { Hex } from "../../base.ts";
+import type { Hex } from "../../base";
 
 /** User delegation to a validator. */
 export interface Delegation {

@@ -1,14 +1,14 @@
-import type { Hex } from "../../base.ts";
-import type { BlockDetails } from "../explorer/responses.ts";
+import type { Hex } from "../../base";
+import type { BlockDetails } from "../explorer/responses";
 import type {
     FundingUpdate,
     PerpsClearinghouseState,
     SpotClearinghouseState,
     UserFundingUpdate,
     UserNonFundingLedgerUpdate,
-} from "../info/accounts.ts";
-import type { AllMids, PerpsAssetCtx, PerpsMeta, SpotAssetCtx } from "../info/assets.ts";
-import type { BookLevel, Fill, FrontendOrder, TwapHistory, TwapSliceFill, TwapState } from "../info/orders.ts";
+} from "../info/accounts";
+import type { AllMids, PerpsAssetCtx, PerpsMeta, SpotAssetCtx } from "../info/assets";
+import type { BookLevel, Fill, FrontendOrder, TwapHistory, TwapSliceFill, TwapState } from "../info/orders";
 
 /** Active perpetual asset context. */
 export interface WsActiveAssetCtx {

@@ -1,6 +1,6 @@
-import type { IRequestTransport } from "../base.ts";
-import type { BlockDetailsRequest, TxDetailsRequest, UserDetailsRequest } from "../types/explorer/requests.ts";
-import type { BlockDetailsResponse, TxDetailsResponse, UserDetailsResponse } from "../types/explorer/responses.ts";
+import type { IRequestTransport } from "../base";
+import type { BlockDetailsRequest, TxDetailsRequest, UserDetailsRequest } from "../types/explorer/requests";
+import type { BlockDetailsResponse, TxDetailsResponse, UserDetailsResponse } from "../types/explorer/responses";
 import type {
     ExtraAgent,
     LegalCheck,
@@ -16,7 +16,7 @@ import type {
     UserNonFundingLedgerUpdate,
     UserRateLimit,
     UserRole,
-} from "../types/info/accounts.ts";
+} from "../types/info/accounts";
 import type {
     AllMids,
     Candle,
@@ -28,14 +28,14 @@ import type {
     SpotMeta,
     SpotMetaAndAssetCtxs,
     TokenDetails,
-} from "../types/info/assets.ts";
+} from "../types/info/assets";
 import type {
     Delegation,
     DelegatorReward,
     DelegatorSummary,
     DelegatorUpdate,
     ValidatorSummary,
-} from "../types/info/delegations.ts";
+} from "../types/info/delegations";
 import type {
     Book,
     Fill,
@@ -45,7 +45,7 @@ import type {
     OrderStatus,
     TwapHistory,
     TwapSliceFill,
-} from "../types/info/orders.ts";
+} from "../types/info/orders";
 import type {
     AllMidsRequest,
     CandleSnapshotRequest,
@@ -92,8 +92,8 @@ import type {
     ValidatorSummariesRequest,
     VaultDetailsRequest,
     VaultSummariesRequest,
-} from "../types/info/requests.ts";
-import type { VaultDetails, VaultEquity, VaultSummary } from "../types/info/vaults.ts";
+} from "../types/info/requests";
+import type { VaultDetails, VaultEquity, VaultSummary } from "../types/info/vaults";
 
 /** Parameters for the {@linkcode PublicClient} constructor. */
 export interface PublicClientParameters<T extends IRequestTransport = IRequestTransport> {

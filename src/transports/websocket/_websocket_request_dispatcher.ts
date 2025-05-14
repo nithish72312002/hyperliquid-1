@@ -1,5 +1,5 @@
-import { TransportError } from "../../base.ts";
-import type { HyperliquidEventTarget } from "./_hyperliquid_event_target.ts";
+import { TransportError } from "../../base";
+import type { HyperliquidEventTarget } from "./_hyperliquid_event_target";
 
 interface PostRequest {
     method: "post";

@@ -1,4 +1,4 @@
-import { type Hex, HyperliquidError, type IRequestTransport, type MaybePromise } from "../base.ts";
+import { type Hex, HyperliquidError, type IRequestTransport, type MaybePromise } from "../base";
 import type {
     ApproveAgentRequest,
     ApproveBuilderFeeRequest,
@@ -38,7 +38,7 @@ import type {
     VaultModifyRequest,
     VaultTransferRequest,
     Withdraw3Request,
-} from "../types/exchange/requests.ts";
+} from "../types/exchange/requests";
 import type {
     BaseExchangeResponse,
     CancelResponse,
@@ -49,7 +49,7 @@ import type {
     SuccessResponse,
     TwapCancelResponse,
     TwapOrderResponse,
-} from "../types/exchange/responses.ts";
+} from "../types/exchange/responses";
 import {
     type AbstractEthersSigner,
     type AbstractEthersV5Signer,
@@ -62,7 +62,7 @@ import {
     isAbstractWindowEthereum,
     signL1Action,
     signUserSignedAction,
-} from "../signing.ts";
+} from "../signing";
 
 /** Parameters for the {@linkcode WalletClient} constructor. */
 export interface WalletClientParameters<
