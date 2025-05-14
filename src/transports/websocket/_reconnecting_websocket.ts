@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
-import { type MaybePromise, TransportError } from "../../base";
 import { delay } from "../../utils/compatibility/async";
+import { type MaybePromise, TransportError } from "../../base";
 
 /** Configuration options for the `ReconnectingWebSocket`. */
 export interface ReconnectingWebSocketOptions {
@@ -393,41 +393,6 @@ export class ReconnectingWebSocket implements WebSocket {
     dispatchEvent(event: Event): boolean {
         return this._socket.dispatchEvent(event);
     }
-}
-
-<<<<<<< HEAD
-/** Creates a WebSocket with connection timeout. */
-function createWebSocketWithTimeout(
-    url: string | URL,
-    protocols?: string | string[],
-    timeout?: number | null,
-): WebSocket {
-    // Ensure URL is a string (needed for React Native)
-    const urlString = url.toString();
-    
-    // Create WebSocket - works in all environments (browser, Node.js, React Native)
-    const socket = new WebSocket(urlString, protocols);
-    if (timeout === null || timeout === undefined) return socket;
-
-    const timeoutId = setTimeout(() => {
-        socket.removeEventListener("open", openHandler);
-        socket.removeEventListener("close", closeHandler);
-        socket.close(3008, "Timeout"); // https://www.iana.org/assignments/websocket/websocket.xml#close-code-number
-    }, timeout);
-
-    const openHandler = () => {
-        socket.removeEventListener("close", closeHandler);
-        clearTimeout(timeoutId);
-    };
-    const closeHandler = () => {
-        socket.removeEventListener("open", openHandler);
-        clearTimeout(timeoutId);
-    };
-
-    socket.addEventListener("open", openHandler, { once: true });
-    socket.addEventListener("close", closeHandler, { once: true });
-
-    return socket;
 }
 
 /** Check if two event listeners are the same (just like EventTarget). */
