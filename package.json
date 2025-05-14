@@ -21,7 +21,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "rm -rf dist && tsup"
+    "build": "rm -rf dist && tsup",
+    "prepare": "npm run build"
   },
   "keywords": [
     "hyperliquid",
