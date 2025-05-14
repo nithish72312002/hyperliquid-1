@@ -1,5 +1,6 @@
 // Polyfills for React Native compatibility
-import "./utils/compatibility/abort-signal";
+// @ts-ignore - Using abortcontroller-polyfill without type checks
+import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
 
 // Base interfaces
 export * from "./base";
