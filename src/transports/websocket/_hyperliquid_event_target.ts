@@ -69,17 +69,52 @@ export class HyperliquidEventTarget extends TypedEventTarget<HyperliquidEventMap
         super();
         socket.addEventListener("message", (event: MessageEvent) => {
             try {
-                const msg = JSON.parse(event.data) as unknown;
-                if (isHyperliquidMsg(msg)) {
-                    this.dispatchEvent(new CustomEvent(msg.channel, { detail: msg.data }));
-                } else if (isExplorerBlockMsg(msg)) {
-                    this.dispatchEvent(new CustomEvent("_explorerBlock", { detail: msg }));
-                } else if (isExplorerTxsMsg(msg)) {
-                    this.dispatchEvent(new CustomEvent("_explorerTxs", { detail: msg }));
+                console.log("WebSocket message received:", typeof event.data);
+                
+                // Handle React Native string data (some WebSocket implementations send strings directly)
+                let dataStr: string;
+                if (typeof event.data === 'string') {
+                    dataStr = event.data;
+                } else if (typeof event.data === 'object') {
+                    // Handle Blob or ArrayBuffer in browser environments
+                    // We'll just log this case for now since React Native typically uses strings
+                    console.warn("Received non-string WebSocket data, unexpected in React Native");
+                    dataStr = String(event.data);
+                } else {
+                    console.error("Unexpected WebSocket data type:", typeof event.data);
+                    return;
                 }
-            } catch {
-                // Ignore JSON parsing errors
+                
+                // Try to parse the message
+                try {
+                    const msg = JSON.parse(dataStr) as unknown;
+                    console.log("Parsed WebSocket message:", JSON.stringify(msg).substring(0, 200) + "...");
+                    
+                    if (isHyperliquidMsg(msg)) {
+                        console.log(`Dispatching ${msg.channel} event`);
+                        this.dispatchEvent(new CustomEvent(msg.channel, { detail: msg.data }));
+                    } else if (isExplorerBlockMsg(msg)) {
+                        console.log("Dispatching _explorerBlock event");
+                        this.dispatchEvent(new CustomEvent("_explorerBlock", { detail: msg }));
+                    } else if (isExplorerTxsMsg(msg)) {
+                        console.log("Dispatching _explorerTxs event");
+                        this.dispatchEvent(new CustomEvent("_explorerTxs", { detail: msg }));
+                    } else {
+                        // This is key - if we don't recognize the message format, log it
+                        console.warn("Unknown message format received:", JSON.stringify(msg).substring(0, 200));
+                    }
+                } catch (parseError) {
+                    console.error("Error parsing WebSocket message:", parseError);
+                    console.error("Raw message content (first 200 chars):", dataStr.substring(0, 200));
+                }
+            } catch (error) {
+                console.error("Critical error handling WebSocket message:", error);
             }
+        });
+        
+        // Add error handling for the socket itself
+        socket.addEventListener("error", (error) => {
+            console.error("WebSocket error event:", error);
         });
     }
 }

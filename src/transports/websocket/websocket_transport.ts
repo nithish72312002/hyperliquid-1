@@ -291,8 +291,11 @@ export class WebSocketTransport implements IRequestTransport, ISubscriptionTrans
      * @returns A combined abort signal or undefined.
      */
     protected _getCombinedTimeoutSignal(signal?: AbortSignal): AbortSignal | undefined {
-        // Bypass all AbortSignal functionality for React Native compatibility
-        return undefined;
+        const timeoutSignal = this.timeout ? AbortSignal.timeout(this.timeout) : undefined;
+        const combinedSignal = signal && timeoutSignal
+            ? AbortSignal.any([signal, timeoutSignal])
+            : signal ?? timeoutSignal;
+        return combinedSignal;
     }
 
     async [Symbol.asyncDispose](): Promise<void> {
