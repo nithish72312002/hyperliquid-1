@@ -60,57 +60,35 @@ export class WebSocketRequestDispatcher {
         });
         hlEvents.addEventListener("error", (event) => {
             try {
-                console.log("WebSocket error event received:", event.detail);
                 // Error event doesn't have an id, use original request to match
                 const request = event.detail.match(/{.*}/)?.[0];
                 if (request) {
-                    console.log("Found JSON in error message:", request);
-                    try {
-                        const parsedRequest = JSON.parse(request) as Record<string, unknown>;
-                        console.log("Parsed request from error:", parsedRequest);
-                        
-                        if ("id" in parsedRequest && typeof parsedRequest.id === "number") {
-                            // If a post request was sent, it is possible to get the id from the request
-                            console.log("Rejecting post request with id:", parsedRequest.id);
-                            this.pending.get(parsedRequest.id)?.reject(
-                                new WebSocketRequestError(`Cannot complete WebSocket request: ${event.detail}`),
-                            );
-                        } else if (
-                            "subscription" in parsedRequest &&
-                            typeof parsedRequest.subscription === "object" &&
-                            parsedRequest.subscription !== null
-                        ) {
-                            // If a subscription/unsubscribe request was sent, use the request as an id
-                            const id = WebSocketRequestDispatcher.requestToId(parsedRequest.subscription);
-                            console.log("Rejecting subscription request with id:", id);
-                            this.pending.get(id)?.reject(
-                                new WebSocketRequestError(`Cannot complete WebSocket request: ${event.detail}`),
-                            );
-                        } else {
-                            // If the request is not recognized, use the parsed request as an id
-                            const id = WebSocketRequestDispatcher.requestToId(parsedRequest);
-                            console.log("Rejecting unknown request with id:", id);
-                            this.pending.get(id)?.reject(
-                                new WebSocketRequestError(`Cannot complete WebSocket request: ${event.detail}`),
-                            );
-                        }
-                    } catch (parseError) {
-                        console.error("Error parsing JSON in error message:", parseError);
-                    }
-                } else {
-                    console.warn("No JSON found in error message, unable to match with pending request");
-                    
-                    // Attempt to reject all pending requests with this error
-                    // This is a fallback for React Native where error format might be different
-                    if (this.pending.size > 0) {
-                        console.warn("Rejecting all pending requests due to unmatched error");
-                        this.pending.forEach(({ reject }) => {
-                            reject(new WebSocketRequestError(`Unmatched WebSocket error: ${event.detail}`));
-                        });
+                    const parsedRequest = JSON.parse(request) as Record<string, unknown>;
+                    if ("id" in parsedRequest && typeof parsedRequest.id === "number") {
+                        // If a post request was sent, it is possible to get the id from the request
+                        this.pending.get(parsedRequest.id)?.reject(
+                            new WebSocketRequestError(`Cannot complete WebSocket request: ${event.detail}`),
+                        );
+                    } else if (
+                        "subscription" in parsedRequest &&
+                        typeof parsedRequest.subscription === "object" &&
+                        parsedRequest.subscription !== null
+                    ) {
+                        // If a subscription/unsubscribe request was sent, use the request as an id
+                        const id = WebSocketRequestDispatcher.requestToId(parsedRequest.subscription);
+                        this.pending.get(id)?.reject(
+                            new WebSocketRequestError(`Cannot complete WebSocket request: ${event.detail}`),
+                        );
+                    } else {
+                        // If the request is not recognized, use the parsed request as an id
+                        const id = WebSocketRequestDispatcher.requestToId(parsedRequest);
+                        this.pending.get(id)?.reject(
+                            new WebSocketRequestError(`Cannot complete WebSocket request: ${event.detail}`),
+                        );
                     }
                 }
-            } catch (error) {
-                console.error("Critical error in WebSocket error handler:", error);
+            } catch {
+                // Ignore JSON parsing errors
             }
         });
 
