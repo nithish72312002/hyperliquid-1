@@ -1,35 +1,20 @@
 // Simple example of subscribing to allmids using the HyperLiquid SDK
-
-// Add WebSocket polyfill for Node.js (not needed in browsers or React Native)
-const WebSocket = require('ws');
-global.WebSocket = WebSocket;
-
-// Polyfill AbortSignal.any if needed
-if (typeof AbortSignal !== 'undefined' && !AbortSignal.any) {
-  AbortSignal.any = function(signals) {
-    const controller = new AbortController();
-    for (const signal of signals) {
-      if (signal && typeof signal.addEventListener === 'function') {
-        signal.addEventListener('abort', () => controller.abort(signal.reason));
-      }
-    }
-    return controller.signal;
-  };
-}
-
-// Now import the SDK
 const hl = require('../dist/index.js');
 
 async function main() {
   try {
     console.log("Creating WebSocket transport...");
+    const apiTransport = new hl.HttpTransport();
     const transport = new hl.WebSocketTransport();
     
     console.log("Creating event client...");
+    const apiClient = new hl.PublicClient({ transport: apiTransport });
     const client = new hl.EventClient({ transport });
     
+    console.log("Fetching allmids...");
+    
     console.log("Subscribing to allmids...");
-    const subscription = await client.allMids({}, (data) => {
+    const subscription = await client.allMids((data) => {
       console.log("Received allmids data:", JSON.stringify(data, null, 2));
     });
     
